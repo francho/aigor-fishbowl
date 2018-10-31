@@ -119,9 +119,10 @@ class LedControl:
             GPIO.output(SUN_PORT, 1)
 
     def dawn(self):
-        self._leds_from_array(self.day_light_leds, delay=1)
-        self._sun_on()
-        self._set_all(self.color(0, 0, 0))
+        #self._leds_from_array(self.day_light_leds, delay=1)
+        #self._set_all(self.color(0, 0, 0))
+        self._sun_off()
+        self._set_all(self.color(255, 255, 255))
 
     def sunset(self):
         self._set_all(self.color(255, 255, 255))
@@ -147,11 +148,14 @@ class LedControl:
         self._sun_off()
         self._set_all(self.color(0, 0, 0, 0))
 
+    def set_color(self, red, blue, green, bright):
+        self._set_all(self.color(red,green,blue,bright))
+
 
 # Main program logic follows:
 if __name__ == '__main__':
     try:
-        opts, args = getopt.getopt(sys.argv[1:], "", ["dawn", "sunset", "nightfall", "off"])
+        opts, args = getopt.getopt(sys.argv[1:], "", ["dawn", "sunset", "nightfall", "off", "color"])
     except getopt.GetoptError:
         print('test.py --dawn')
         print('test.py --sunset')
@@ -169,3 +173,6 @@ if __name__ == '__main__':
             control.nightfall()
         elif opt in '--off':
             control.night()
+        elif opt in '--color':
+            print(args)
+            control.set_color(int(args[0]),int(args[1]),int(args[2]),int(args[3]))
