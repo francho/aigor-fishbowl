@@ -151,16 +151,45 @@ class LedControl:
     def set_color(self, red, blue, green, bright):
         self._set_all(self.color(red,green,blue,bright))
 
+    def i_am_groot(self):
+        self._sun_off()
+        colormap = [
+            [ 100, 000, 000, 010], # 1
+            [ 010, 000, 000, 010], # 2
+            [ 000, 000, 000, 000], # 3
+            [ 000, 000, 000, 000], # 4
+            [ 000, 000, 000, 000], # 5
+            [ 000, 000, 000, 000], # 6
+            [ 000, 000, 000, 000], # 7
+            [ 000, 000, 000, 000], # 8
+            [ 000, 000, 000, 000], # 9
+            [ 000, 000, 000, 000], # 10
+            [ 255, 255, 255, 250], # 11
+            [ 255, 255, 255, 250], # 12
+            [ 000, 000, 255, 100], # 13
+            [ 000, 000, 000, 000], # 14
+            [ 000, 000, 000, 000], # 15
+            [ 000, 000, 000, 000], # 16
+            [ 000, 000, 000, 000], # 17
+            [ 000, 000, 000, 000], # 18
+            [ 000, 010, 000, 010], # 19
+            [ 000, 100, 000, 010], # 20
+        ]
+        for idx, color in enumerate(colormap):
+            self._pixel_set_color(idx, self.color(color[0], color[1], color[2], color[3]))
+        self.strip.show()
+
 
 # Main program logic follows:
 if __name__ == '__main__':
     try:
-        opts, args = getopt.getopt(sys.argv[1:], "", ["dawn", "sunset", "nightfall", "off", "color"])
+        opts, args = getopt.getopt(sys.argv[1:], "", ["dawn", "sunset", "nightfall", "off", "color", "groot"])
     except getopt.GetoptError:
         print('test.py --dawn')
         print('test.py --sunset')
         print('test.py --nightfall')
         print('test.py --night')
+        print('test.py --groot')
         sys.exit(2)
 
     control = LedControl()
@@ -176,3 +205,5 @@ if __name__ == '__main__':
         elif opt in '--color':
             print(args)
             control.set_color(int(args[0]),int(args[1]),int(args[2]),int(args[3]))
+        elif opt in '--groot':
+            control.i_am_groot()
